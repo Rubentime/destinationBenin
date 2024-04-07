@@ -17,7 +17,7 @@ function getProducts() {
             // Contenu de l'élément de produit
             productLink.innerHTML = `
                 <img src="${product.urlimd}" alt="${product.nom_du_produit}">
-                <h3>${product.nom_du_produit}</h3>a
+                <h3>${product.nom_du_produit}</h3>
                 <p>Prix: ${product.prix}</p>
             `;
             // Ajouter le lien à l'élément de produit
@@ -65,21 +65,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
-    // Effectuer une requête GET pour récupérer les détails du produit
-    fetch(`http://localhost:3000/api/truc/${productId}`)
-    .then(response => response.json())
-    .then(data => {
-        const produit = data.produit; // Accéder à l'objet produit dans data
-        // Afficher les détails du produit sur la page
-        document.getElementById('productTitle').innerText = `Détails de ${produit.nom_du_produit}`;
-        document.getElementById('productDetails').innerHTML = `
-            <p><strong>Image:</strong> <img src="${produit.urlimd}" alt="${produit.nom_du_produit}"></p>
-            <p><strong>Nom du Produit:</strong> ${produit.nom_du_produit}</p>
-            <p><strong>Prix du Produit:</strong> ${produit.prix}</p>
-        `;
-    })
-    .catch(error => console.error('Error:', error));
+    if(productId) {
+        // Effectuer une requête GET pour récupérer les détails du produit uniquement si l'ID du produit est défini
+        fetch(`http://localhost:3000/api/truc/${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            const produit = data.produit; // Accéder à l'objet produit dans data
+            // Afficher les détails du produit sur la page
+            document.getElementById('productTitle').innerText = `Détails de ${produit.nom_du_produit}`;
+            document.getElementById('productDetails').innerHTML = `
+                <p><strong>Image:</strong> <img src="${produit.urlimd}" alt="${produit.nom_du_produit}"></p>
+                <p><strong>Nom du Produit:</strong> ${produit.nom_du_produit}</p>
+                <p><strong>Prix du Produit:</strong> ${produit.prix}</p>
+            `;
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        console.error('Product ID is null');
+    }
 });
+
 
 function redirectToEditPage() {
     // Récupérer l'ID du produit à partir de l'URL
@@ -160,4 +165,51 @@ function deleteProduct(productId) {
     .catch(error => console.error('Error:', error));
 }
 
+function inscription() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Envoi de la requête POST au backend pour l'inscription
+    fetch('http://localhost:3000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redirection vers la page products.html après l'inscription réussie
+            window.location.href = 'products.html';
+        } else {
+            // Gestion des erreurs d'inscription
+            response.json().then(data => alert(data.message));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function connexion() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Envoi de la requête POST au backend pour la connexion
+    fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Redirection vers la page products.html après la connexion réussie
+            window.location.href = 'products.html';
+        } else {
+            // Gestion des erreurs de connexion
+            response.json().then(data => alert(data.message));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
 

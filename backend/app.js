@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const trucRouter = require('./routes.js/truc');
+const authRouter = require('./routes.js/auth');
 
 mongoose.connect('mongodb://localhost:27017/myconnect',
   { useNewUrlParser: true,
@@ -25,5 +26,5 @@ app.use((req, res, next) => {
 });
  
 app.use('/api/truc', trucRouter);
-
+app.use('/api/auth', authRouter);
 module.exports = app;
