@@ -1,7 +1,3 @@
-// main.js
-
-// Fonction pour récupérer et afficher les produits sur la page produits
-// Fonction pour récupérer et afficher les produits sur la page produits
 function getProducts() {
     fetch('http://localhost:3000/api/truc')
     .then(response => response.json())
