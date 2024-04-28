@@ -6,7 +6,6 @@ const destinationSchema = mongoose.Schema({
     desciption: {type: String, require: true},
     type_destination: {type: String, require: true},
     horaire_visite: {type: String, require: true},
-    contact: {type: String, require: true},
     images: {type: String, required: true},
 });
 

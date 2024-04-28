@@ -3,7 +3,7 @@ const router = express.Router();
 const authmid = require('../middleware/auth');
 const restaurantsCtrl = require('../controller/restaurants');
 
-router.post('/',  restaurantsCtrl.ajouterrestaurants);
+router.post('/', restaurantsCtrl.ajouterrestaurants);
 
 router.put('/:id',  restaurantsCtrl.modifier);
 

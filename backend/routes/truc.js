@@ -5,12 +5,12 @@ const trucCtrl = require('../controller/truc');
 
 router.post('/',  trucCtrl.ajouterProduits);
 
-router.put('/:id',  trucCtrl.modifier);
+router.put('/:id', trucCtrl.modifier);
 
-router.get('/',  trucCtrl.recupall);
+router.get('/', trucCtrl.recupall);
 
-router.delete('/:id',  trucCtrl.supprimer);
+router.delete('/:id', trucCtrl.supprimer);
 
-router.get('/:id',  trucCtrl.recupone);
+router.get('/:id', trucCtrl.recupone);
 
 module.exports  = router;

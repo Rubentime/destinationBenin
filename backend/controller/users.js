@@ -1,13 +1,13 @@
-const Auth = require('../models/auth');
+const Auth = require('../models/users');
 const bcript = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.inscription = (req, res, next) =>{
-    bcript.hash(req.body.password, 10)
+    bcript.hash(req.body.mdp, 10)
         .then(hash => {
             const auth = new Auth ({
                 email: req.body.email,
-                mdp: hash
+                mdp: hash,
             });
             auth.save()
                 .then(() => res.status(201).json({message: 'bien enregistré'}))
@@ -22,7 +22,7 @@ exports.connexion = (req, res, next) => {
             if(!auth){
                 return res.status(401).json({message: 'paire non retrouvé'});
             }
-            bcript.compare(req.body.password, auth.mdp)
+            bcript.compare(req.body.mdp, auth.mdp)
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({message: 'paire non retrouvé'});

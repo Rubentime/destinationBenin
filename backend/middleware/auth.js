@@ -1,17 +1,19 @@
-const jwt = require('jsonwebtoken');
+const admin= require('../config/firebase-config')
 
-module.exports = (req, res, next) => {
-    try{
-        const token = req.headers.authorization.split('')[1];
-        const decodedtoken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-        const authId = decodedtoken.authId;
-        req.auth = {
-            authId: authId,
-        };
-    next();
+class Middleware {
+    async decodeToken(req, res, next){
+        const token = req.headers.authorization.split(' ')[1];
 
-    } 
-    catch (error){
-        res.status(401).json({message: 'mid bug'});
+        try {
+            const decodeValue= await admin.auth().verifyIdToken(token)
+            if (decodeValue){
+                return next();
+            }
+            return res.json({ message: 'Non autorisé'})
+        } catch(error) {
+            console.log(error)
+            res.status(401).json({ error });
+        }
     }
-};
+}
+module.exports = new Middleware();

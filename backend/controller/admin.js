@@ -33,3 +33,5 @@ exports.modifier = (req, res, next) => {
       .then(admin => res.status(200).json({message:"admin suppeo" }))
       .catch(error => res.status(400).json({ error }));
   };
+
+  
